@@ -7,3 +7,70 @@
 body{
     background-color: #eee;
 }
+
+.page-container{
+    padding: 2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    place-items: center;
+    max-width: 75rem;
+    width: 100%;
+    min-width: 35rem;
+    margin: 0 auto;
+}
+.word-box{
+    width: 100%;
+    display: block;
+    height: 10rem;
+    background-color: white;
+    border: 1px solid;
+    margin-bottom: 2rem;
+}
+
+.input-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input{
+    flex-grow: 2;
+    height: 4rem;
+    font-size: 2rem;
+}
+
+.time{
+    width: 10rem;
+    text-align: center;
+    font-size: 2rem;
+    font-family: Roboto, sans-serif;
+    user-select: none;
+}
+.resetButton{
+    width: 10rem;
+    background-color: var(--primary-clr);
+    border: 0;
+    border-radius: 0.4rem;
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    transition: all 500ms;
+}
+.resetButton:hover{
+    cursor: pointer;
+    background-color: rgb(196, 129, 5);
+}
+
+.word-box{
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.word-box > span{
+    font-size: 2rem;
+    font-family: Roboto, sans-serif;
+    margin: 0px 1rem;
+}
