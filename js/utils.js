@@ -56,3 +56,10 @@ export const writeElementToWordBox = (newRandomWords, wordBox) => {
  * @returns if they're same returns true, else returns false
  */
 export const compareWords = (word1, word2) => word1.trim() === word2.trim();
+
+/**
+ * reloads the page
+ */
+export const reloadPage = () => {
+  window.location.reload();
+};
