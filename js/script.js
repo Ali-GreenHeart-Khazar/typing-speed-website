@@ -9,8 +9,6 @@ const modal = document.querySelector("#modal");
 wordBox.style.top = "-1px";
 
 const newRandomWords = randomWordsTaker(words.length, words);
-console.log(newRandomWords);
-console.log(words);
 writeElementToWordBox(newRandomWords, wordBox);
 
 let currentWordIndex = 0;
@@ -41,12 +39,9 @@ enteredWord.addEventListener("keydown", ({ keyCode }) => {
     intervalTimer = setInterval(timer, 1000);
   }
   if (keyCode === 32 && wordBox.childNodes[currentWordIndex + 2].offsetTop > currentRowOffsetTop) {
-    console.dir(wordBox);
     let currentTop = parseInt(wordBox.style.top);
-    console.log(currentTop);
     wordBox.style.top = `${currentTop - 40}px`;
     currentRowOffsetTop = wordBox.childNodes[currentWordIndex + 2].offsetTop;
-    // string interpolation
   }
 });
 
@@ -70,9 +65,3 @@ enteredWord.addEventListener("keydown", ({ keyCode }) => {
 });
 
 resetBtn.addEventListener("click", reloadPage);
-
-/*
-+1. xal logic-i ferqlidi: deqiqede yazilan sozlerin sayina uygun. 
-2. sozler bitenden sonra yenilenmelidi, ya da 15 dene yox, daha cox soz olsun. 
-
-*/
