@@ -1,19 +1,20 @@
 import { words } from "./words_DB.js"; /* words arrayini daxil et */
-import { randomWordsTaker, writeElementToWordBox, compareWords, reloadPage } from "./utils.js";
+import { writeElementToWordBox, compareWords, reloadPage, randomWordsTaker } from "./utils.js";
 
 const wordBox = document.querySelector("#wordBox");
 const enteredWord = document.querySelector("#enteredWord");
 const time = document.querySelector("#time");
 const resetBtn = document.querySelector("#resetBtn");
-const xalTablosu = document.querySelector("#xal");
 const modal = document.querySelector("#modal");
+wordBox.style.top = "-1px";
 
-const newRandomWords = randomWordsTaker(15, words);
-
+const newRandomWords = randomWordsTaker(words.length, words);
+console.log(newRandomWords);
+console.log(words);
 writeElementToWordBox(newRandomWords, wordBox);
 
 let currentWordIndex = 0;
-let xal = 0;
+let wordsCountPerMinute = 0;
 let seconds = 60;
 
 const timer = () => {
@@ -22,7 +23,7 @@ const timer = () => {
     clearInterval(intervalTimer);
     // show results in modal
     modal.parentElement.style.display = "flex";
-    modal.innerHTML = `Your Score is ${xal}`;
+    modal.innerHTML = `Your result: ${wordsCountPerMinute} word per minute`;
     // -----------------------------------------------------------------
   } else {
     seconds = seconds - 1;
@@ -32,10 +33,20 @@ const timer = () => {
 
 let intervalTimer = undefined;
 
-enteredWord.addEventListener("keydown", () => {
+let currentRowOffsetTop = 20;
+
+enteredWord.addEventListener("keydown", ({ keyCode }) => {
   if (enteredWord.dataset.didstart === "0") {
     enteredWord.dataset.didstart = "1";
     intervalTimer = setInterval(timer, 1000);
+  }
+  if (keyCode === 32 && wordBox.childNodes[currentWordIndex + 2].offsetTop > currentRowOffsetTop) {
+    console.dir(wordBox);
+    let currentTop = parseInt(wordBox.style.top);
+    console.log(currentTop);
+    wordBox.style.top = `${currentTop - 40}px`;
+    currentRowOffsetTop = wordBox.childNodes[currentWordIndex + 2].offsetTop;
+    // string interpolation
   }
 });
 
@@ -43,26 +54,25 @@ wordBox.childNodes[currentWordIndex + 1].className = "activeSpan";
 
 enteredWord.addEventListener("keydown", ({ keyCode }) => {
   let arrayLength = newRandomWords.length;
-  if (currentWordIndex === arrayLength) {
-    // 60 saniye kecmeden uddunuz!
-    modal.parentElement.style.display = "flex";
-    modal.innerHTML = "Congratulations! You Wont the Game!!!";
-  }
   if (keyCode === 32 && currentWordIndex < arrayLength) {
     wordBox.childNodes[currentWordIndex + 2].className = "activeSpan";
 
     if (compareWords(enteredWord.value, newRandomWords[currentWordIndex])) {
-      xal += 10;
+      wordsCountPerMinute++;
       wordBox.childNodes[currentWordIndex + 1].className = "correctWord";
     } else {
-      xal -= 10;
       wordBox.childNodes[currentWordIndex + 1].className = "wrongWord";
     }
 
-    xalTablosu.innerHTML = xal;
     enteredWord.value = "";
     currentWordIndex++;
   }
 });
 
 resetBtn.addEventListener("click", reloadPage);
+
+/*
++1. xal logic-i ferqlidi: deqiqede yazilan sozlerin sayina uygun. 
+2. sozler bitenden sonra yenilenmelidi, ya da 15 dene yox, daha cox soz olsun. 
+
+*/
